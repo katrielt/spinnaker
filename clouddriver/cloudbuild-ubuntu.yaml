@@ -1,0 +1,23 @@
+steps:
+# Step 1: Build the application using Gradle
+- name: 'eclipse-temurin:17'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    ./gradlew --no-daemon clouddriver:clouddriver-web:installDist -x test
+
+# Step 2: Build the Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--build-arg'
+  - 'TARGETARCH=amd64'
+  - '-t'
+  - 'europe-west1-docker.pkg.dev/waze-ci/waze-spinnaker-images/clouddriver:2025.3.1-patch1'
+  - '-f'
+  - 'clouddriver/Dockerfile.ubuntu'
+  - 'clouddriver'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
