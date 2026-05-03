@@ -271,6 +271,15 @@
         <dd>{{ctrl.serverGroup.shieldedVmConfig.enableIntegrityMonitoring}}</dd>
       </dl>
     </collapsible-section>
+    <collapsible-section heading="Workload Identity">
+      <div ng-if="!ctrl.serverGroup.workloadIdentityConfig">No Workload Identity configuration</div>
+      <dl ng-if="ctrl.serverGroup.workloadIdentityConfig" class="horizontal-when-filters-collapsed">
+        <dt>Identity</dt>
+        <dd>{{ctrl.serverGroup.workloadIdentityConfig.identity || 'None'}}</dd>
+        <dt>Identity Certificate Enabled</dt>
+        <dd>{{ctrl.serverGroup.workloadIdentityConfig.identityCertificateEnabled ? 'Yes' : 'No'}}</dd>
+      </dl>
+    </collapsible-section>
     <collapsible-section heading="Availability Policies">
       <div ng-if="!ctrl.serverGroup.availabilityPolicies">
         No availability policies associated with this server group

@@ -256,6 +256,32 @@
   </div>
 </div>
 <div class="form-group">
+  <div class="sm-label-left">
+    <b>Workload Identity</b>
+    <help-field key="gce.serverGroup.workloadIdentityConfig"></help-field>
+  </div>
+  <div class="col-md-9" style="margin-top: 5px;">
+    <div class="form-group">
+      <label class="col-md-3 sm-label-right">Identity</label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control input-sm"
+          ng-model="vm.command.workloadIdentityConfig.identity"
+          placeholder="e.g. [PROJECT_NUMBER]-compute@developer.gserviceaccount.com"
+        />
+      </div>
+    </div>
+    <div class="col-md-9 col-md-offset-3 checkbox">
+      <label>
+        <input type="checkbox" ng-model="vm.command.workloadIdentityConfig.identityCertificateEnabled" />
+        Enable Identity Certificate
+        <help-field key="gce.serverGroup.workloadIdentityConfig.identityCertificateEnabled"></help-field>
+      </label>
+    </div>
+  </div>
+</div>
+<div class="form-group">
   <div class="col-md-5 sm-label-right">
     <b>Auth Scopes</b>
     <help-field key="gce.instance.authScopes"></help-field>
