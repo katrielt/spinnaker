@@ -14,10 +14,11 @@ steps:
   - '--build-arg'
   - 'TARGETARCH=amd64'
   - '-t'
-  - 'europe-west1-docker.pkg.dev/waze-ci/waze-spinnaker-images/clouddriver:2025.3.1-patch1'
+  - 'europe-west1-docker.pkg.dev/waze-ci/waze-spinnaker-images/clouddriver:2025.3.1-${COMMIT_SHA}'
   - '-f'
   - 'clouddriver/Dockerfile.ubuntu'
   - 'clouddriver'
-
 options:
   logging: CLOUD_LOGGING_ONLY
+images:
+- europe-west1-docker.pkg.dev/waze-ci/waze-spinnaker-images/clouddriver:2025.3.1-${COMMIT_SHA}
