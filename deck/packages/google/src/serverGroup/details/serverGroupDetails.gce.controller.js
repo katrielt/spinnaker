@@ -153,6 +153,7 @@ angular
             prepareShieldedVmConfig();
             prepareAutoHealingPolicy();
             prepareAuthScopes();
+            prepareWorkloadIdentityConfig();
             prepareCurrentActions();
             augmentTagsWithHelp();
             configureEntityTagTargets();
@@ -229,6 +230,12 @@ angular
               return authScope.replace('https://www.googleapis.com/auth/', '');
             });
           }
+        }
+      };
+
+      const prepareWorkloadIdentityConfig = () => {
+        if (_.has(this.serverGroup, 'launchConfig.instanceTemplate.properties.workloadIdentityConfig')) {
+          this.serverGroup.workloadIdentityConfig = this.serverGroup.launchConfig.instanceTemplate.properties.workloadIdentityConfig;
         }
       };
 

@@ -71,6 +71,13 @@ class BaseGoogleInstanceDescription extends AbstractGoogleCredentialsDescription
 
   Map<String, String> resourceManagerTags
   Map<String, StructuredEntries> partnerMetadata
+  WorkloadIdentityConfig workloadIdentityConfig
+
+  @Canonical
+  static class WorkloadIdentityConfig {
+    String identity
+    Boolean identityCertificateEnabled
+  }
 
   // The source of the image to deploy
   // ARTIFACT: An artifact of type gce/image stored in imageArtifact

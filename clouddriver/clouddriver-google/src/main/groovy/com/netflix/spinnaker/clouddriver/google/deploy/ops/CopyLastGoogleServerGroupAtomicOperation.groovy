@@ -198,6 +198,15 @@ class CopyLastGoogleServerGroupAtomicOperation extends GoogleAtomicOperation<Dep
         newDescription.labels = description.labels != null ? description.labels : labels
       }
 
+      def workloadIdentityConfig = ancestorInstanceProperties.workloadIdentityConfig
+
+      if (workloadIdentityConfig != null) {
+        newDescription.workloadIdentityConfig = description.workloadIdentityConfig != null ? description.workloadIdentityConfig : new BaseGoogleInstanceDescription.WorkloadIdentityConfig(
+          identity: workloadIdentityConfig.identity,
+          identityCertificateEnabled: workloadIdentityConfig.identityCertificateEnabled
+        )
+      }
+
       def scheduling = ancestorInstanceProperties.scheduling
 
       if (scheduling) {

@@ -634,6 +634,7 @@ class GCEUtil {
     def networkInterface = instanceTemplateProperties.networkInterfaces[0]
     def serviceAccountEmail = instanceTemplateProperties.serviceAccounts?.getAt(0)?.email
     def shieldedVmConfig = instanceTemplateProperties.shieldedVmConfig
+    def workloadIdentityConfig = instanceTemplateProperties.workloadIdentityConfig
 
     return new BaseGoogleInstanceDescription(
       image: image,
@@ -650,7 +651,11 @@ class GCEUtil {
       authScopes: retrieveScopesFromServiceAccount(serviceAccountEmail, instanceTemplateProperties.serviceAccounts),
       enableSecureBoot: shieldedVmConfig?.enableSecureBoot,
       enableVtpm: shieldedVmConfig?.enableVtpm,
-      enableIntegrityMonitoring: shieldedVmConfig?.enableIntegrityMonitoring
+      enableIntegrityMonitoring: shieldedVmConfig?.enableIntegrityMonitoring,
+      workloadIdentityConfig: workloadIdentityConfig ? new BaseGoogleInstanceDescription.WorkloadIdentityConfig(
+        identity: workloadIdentityConfig.identity,
+        identityCertificateEnabled: workloadIdentityConfig.identityCertificateEnabled
+      ) : null
     )
   }
 
