@@ -1038,7 +1038,7 @@ public abstract class AbstractGoogleServerGroupCachingAgent
       ScalingSchedule output = new ScalingSchedule();
       output.setScheduleName(key);
       output.setScheduleDescription(input.getDescription());
-      output.setEnabled(!input.getDisabled());
+      output.setEnabled(!Boolean.TRUE.equals(input.getDisabled()));
       output.setDuration(input.getDurationSec());
       output.setMinimumRequiredInstances(input.getMinRequiredReplicas());
       output.setScheduleCron(input.getSchedule());
