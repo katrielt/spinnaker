@@ -116,9 +116,11 @@ module(GOOGLE_LOADBALANCER_CONFIGURE_NETWORK_CREATELOADBALANCER_CONTROLLER, [
     // initialize controller
     if (loadBalancer) {
       $scope.loadBalancer = gceLoadBalancerTransformer.convertLoadBalancerForEditing(loadBalancer);
+      $scope.loadBalancer.healthCheckPortSpecification = $scope.loadBalancer.healthCheckPortSpecification || 'USE_FIXED_PORT';
       initializeEditMode();
     } else {
       $scope.loadBalancer = gceLoadBalancerTransformer.constructNewLoadBalancerTemplate();
+      $scope.loadBalancer.healthCheckPortSpecification = 'USE_FIXED_PORT';
       updateLoadBalancerNames();
       initializeCreateMode();
     }
@@ -127,6 +129,16 @@ module(GOOGLE_LOADBALANCER_CONFIGURE_NETWORK_CREATELOADBALANCER_CONTROLLER, [
 
     this.requiresHealthCheckPath = function () {
       return $scope.loadBalancer.healthCheckProtocol && $scope.loadBalancer.healthCheckProtocol.indexOf('HTTP') === 0;
+    };
+
+    this.isPortRequired = function () {
+      return $scope.loadBalancer.healthCheckPortSpecification !== 'USE_SERVING_PORT';
+    };
+
+    this.onPortSpecificationChange = function () {
+      if ($scope.loadBalancer.healthCheckPortSpecification === 'USE_SERVING_PORT') {
+        delete $scope.loadBalancer.healthCheckPort;
+      }
     };
 
     this.prependForwardSlash = (text) => {
@@ -199,7 +211,8 @@ module(GOOGLE_LOADBALANCER_CONFIGURE_NETWORK_CREATELOADBALANCER_CONTROLLER, [
 
           if (listener.healthCheck) {
             params.healthCheck = {
-              port: $scope.loadBalancer.healthCheckPort,
+              port: $scope.loadBalancer.healthCheckPortSpecification === 'USE_SERVING_PORT' ? null : $scope.loadBalancer.healthCheckPort,
+              portSpecification: $scope.loadBalancer.healthCheckPortSpecification,
               requestPath: $scope.loadBalancer.healthCheckPath,
               timeoutSec: $scope.loadBalancer.healthTimeout,
               checkIntervalSec: $scope.loadBalancer.healthInterval,

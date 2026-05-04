@@ -23,6 +23,7 @@ module(GOOGLE_LOADBALANCER_CONFIGURE_HTTP_HEALTHCHECK_HEALTHCHECK_COMPONENT, [])
         this.max = Number.MAX_SAFE_INTEGER;
         this.backingData = this.command.backingData;
         this.loadBalancer = this.command.loadBalancer;
+        this.healthCheck.portSpecification = this.healthCheck.portSpecification || 'USE_FIXED_PORT';
         const healthChecksByName = this.backingData.healthChecksKeyedByName;
 
         this.onHealthCheckSelect = (selectedHealthCheck) => {
@@ -46,6 +47,16 @@ module(GOOGLE_LOADBALANCER_CONFIGURE_HTTP_HEALTHCHECK_HEALTHCHECK_COMPONENT, [])
 
         const assign = (toAssign) => {
           this.loadBalancer.healthChecks[this.index] = this.healthCheck = toAssign;
+        };
+
+        this.onPortSpecificationChange = () => {
+          if (this.healthCheck.portSpecification === 'USE_SERVING_PORT') {
+            delete this.healthCheck.port;
+          }
+        };
+
+        this.isPortRequired = () => {
+          return this.healthCheck.portSpecification !== 'USE_SERVING_PORT';
         };
 
         const getHealthCheckName = () => {

@@ -18,6 +18,7 @@ class HealthCheckCreateCtrl implements IController {
   constructor(private $scope: ng.IScope) {}
 
   public $onInit(): void {
+    this.healthCheck.portSpecification = this.healthCheck.portSpecification || 'USE_FIXED_PORT';
     if (this.healthCheck.name) {
       this.healthCheckPlaceholder = this.healthCheck;
       this.existingHealthChecksForProtocol = this.healthChecksByAccountAndType[this.credentials][
@@ -63,6 +64,16 @@ class HealthCheckCreateCtrl implements IController {
 
   public onHealthCheckNameChange(typedName: string): void {
     this.healthCheck.name = typedName;
+  }
+
+  public isPortRequired(): boolean {
+    return this.healthCheck.portSpecification !== 'USE_SERVING_PORT';
+  }
+
+  public onPortSpecificationChange(): void {
+    if (this.healthCheck.portSpecification === 'USE_SERVING_PORT') {
+      delete this.healthCheck.port;
+    }
   }
 }
 
