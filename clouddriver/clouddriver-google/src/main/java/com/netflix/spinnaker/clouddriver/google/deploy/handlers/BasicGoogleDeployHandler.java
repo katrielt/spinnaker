@@ -831,6 +831,13 @@ public class BasicGoogleDeployHandler
         .setLabels(labels)
         .setScheduling(scheduling)
         .setServiceAccounts(serviceAccounts)
+        .setWorkloadIdentityConfig(
+            description.getWorkloadIdentityConfig() != null
+                ? new com.google.api.services.compute.model.WorkloadIdentityConfig()
+                    .setIdentity(description.getWorkloadIdentityConfig().getIdentity())
+                    .setIdentityCertificateEnabled(
+                        description.getWorkloadIdentityConfig().getIdentityCertificateEnabled())
+                : null)
         .setResourceManagerTags(description.getResourceManagerTags())
         .setPartnerMetadata(description.getPartnerMetadata());
   }
